@@ -36,15 +36,17 @@ class Fruit:
         self.x = random.randint(1,(size[1]-4)/block_size-1)*block_size
         self.y = random.randint(1,(size[1]-4)/block_size-1)*block_size
 
+snakes = []
 class Snake:
-    def __init__(self):
-        self.x = ((size[1]-4)/2)-10
-        self.y = self.x
-        self.dir = Directions.UP
+    def __init__(self, x, y, distance: int, direction=Directions.UP):
+        self.x = x-20
+        self.y = y-20
+        self.dir = direction
+        self.distance = distance
+        self.instruction = None
     
     
-    def move(self):
-        print('here')
+    def move(self, change_dir = False):
         if self.dir == Directions.UP:
             self.y -= 20
         elif self.dir == Directions.RIGHT:
@@ -54,21 +56,34 @@ class Snake:
         elif self.dir == Directions.LEFT:
             self.x -= 20
 
-def check_collisions(fruit, snake):
-    if snake.x == fruit.x and snake.y == fruit.y:
-        fruit = Fruit()
-    return fruit
+    
+    def create(self):
+        self.child = Snake(self.x, self.y, distance=self.distance+1, direction=self.dir)
+        snakes.append(self.child)
 
-def draw_chars(fruit, snake):
+    def pass_instruction(self, direction):
+        self.child.instruction = direction
+
+def check_collisions(fruit, snake):
+    for snake in snakes:
+        if snake.x == fruit.x and snake.y == fruit.y:
+            fruit = Fruit()
+            snake.create()
+        return fruit
+
+def draw_chars(fruit):
     pygame.draw.rect(screen, RED, [fruit.x-10,fruit.y-10,20,20])
-    pygame.draw.rect(screen, GREEN, [snake.x-10,snake.y-10,20,20])
+    for snake in snakes:
+        pygame.draw.rect(screen, GREEN, [snake.x-10,snake.y-10,20,20])
 
 def main():
     fruit = Fruit()
-    snake = Snake()
+    snake = Snake(((size[1]-4)/2)-10, ((size[1]-4)/2)-10, distance=0)
+    snakes.append(snake)
     done = False
     prev_time = 0
     while not done:
+        prev_dir = snake.dir
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
@@ -84,10 +99,15 @@ def main():
         screen.fill(WHITE)
         pygame.draw.rect(screen, GREEN, [0,0,size[0],size[1]])
         pygame.draw.rect(screen, WHITE, [3,3,size[0]-6,size[1]-6])
-        draw_chars(fruit, snake)
+        draw_chars(fruit)
         clock.tick(30)
         if pygame.time.get_ticks() - prev_time > 120:
-            snake.move()
+            if prev_dir != snake.dir:
+                change = True
+            else:
+                change = False
+            for snake_obj in snakes:
+                snake_obj.move(change_dir=change)
             fruit = check_collisions(fruit,snake)
             prev_time = pygame.time.get_ticks()
         pygame.display.flip()

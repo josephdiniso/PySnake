@@ -4,9 +4,20 @@ from enum import Enum
 import argparse
 
 import pygame
+import gym
+import math
+import random
+import numpy as np
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torch.nn.functional as F
+import torchvision.transforms as T
 
 
 # TODO: Modularize so it can work with any size
+
 class Directions(Enum):
     UP = 1
     RIGHT = 2
@@ -25,7 +36,9 @@ clock = pygame.time.Clock()
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
+LIGHT_GREEN = (0, 200, 0)
 RED = (255, 0, 0)
+LIGHT_RED = (200, 0, 0)
 YELLOW = (255, 255, 0)
 BLUE = (66, 71, 235)
 ORANGE = (247, 165, 0)
@@ -194,12 +207,12 @@ class Game:
         for piece in reversed(self.snakes):
             piece.move(change_dir=change)
 
-    def check_collisions(self) -> None:
+    def check_collisions(self) -> int:
         """
-        Checks if snake has collided with borders, flower, or itself
+        Checks if snake has collided with borders, flower, or itself. Will return the score for calculating the loss
 
         Returns:
-            None
+            (int) Score
         """
         first = True
         for index, snake in enumerate(self.snakes):
@@ -208,11 +221,15 @@ class Game:
                     self.fruit = Fruit(self.snakes)
                     child = snake.create()
                     self.snakes.append(child)
+                    return 10
                 if snake.x >= size[0] or snake.y >= size[0] or snake.x <= 0 or snake.y <= 0:
                     self.die()
+                    return -10
             for other_index, other_snake in enumerate(self.snakes):
                 if index != other_index and snake.x == other_snake.x and snake.y == other_snake.y:
                     self.die()
+                    return -10
+        return 0
 
     def animate(self) -> None:
         """
@@ -221,9 +238,11 @@ class Game:
         Returns:
             None
         """
-        pygame.draw.rect(screen, RED, [self.fruit.x - 10, self.fruit.y - 10, 20, 20])
+        pygame.draw.rect(screen, LIGHT_RED, [self.fruit.x - 10, self.fruit.y - 10, 20, 20])
+        pygame.draw.rect(screen, RED, [self.fruit.x - 8, self.fruit.y - 8, 16, 16])
         for snake in self.snakes:
-            pygame.draw.rect(screen, GREEN, [snake.x - 10, snake.y - 10, 20, 20])
+            pygame.draw.rect(screen, LIGHT_GREEN, [snake.x - 10, snake.y - 10, 20, 20])
+            pygame.draw.rect(screen, GREEN, [snake.x - 8, snake.y - 8, 16, 16])
 
     def reset(self):
         """
@@ -327,7 +346,7 @@ class Game:
                     change = True
                 else:
                     change = False
-                self.check_collisions()
+                score: int = self.check_collisions()
                 self.move_snake(change)
                 prev_time_second = pygame.time.get_ticks()
             pygame.display.flip()

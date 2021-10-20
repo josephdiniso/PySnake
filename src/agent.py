@@ -54,6 +54,7 @@ def train():
     agent = Agent()
     game = Game(True)
     counter: int = 0
+    game.set_game_time(1)
     while True:
         state_old = game.get_state()
         move = agent.get_action(state_old)
@@ -73,6 +74,8 @@ def train():
         if counter > 100:
             done = True
             reward = -10
+        if counter > 100:
+            game.set_game_time(5)
         agent.train_short_memory(state_old, move, reward, state_new, done)
         agent.remember(state_old, move, reward, state_new, done)
         if done:

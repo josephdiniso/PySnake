@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1abf7d58-b47d-4f43-a75b-95aed3203722" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/game_net.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/agent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/model.pth" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/model.pth" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +40,7 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.smartKeys" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -51,7 +51,12 @@
       <option name="presentableId" value="Default" />
       <updated>1629285475714</updated>
       <workItem from="1629285479096" duration="207000" />
-      <workItem from="1629285715409" duration="10603000" />
+      <workItem from="1629285715409" duration="10752000" />
+      <workItem from="1629375774990" duration="15481000" />
+      <workItem from="1629735455374" duration="588000" />
+      <workItem from="1629806179535" duration="472000" />
+      <workItem from="1629904883921" duration="2725000" />
+      <workItem from="1629979301126" duration="3283000" />
     </task>
     <servers />
   </component>

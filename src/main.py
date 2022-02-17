@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
-import random
+from __future__ import annotations
+
 from enum import Enum
 import sys
 
-import argparse
 import pygame
-import math
 import random
 import numpy as np
 
-
-# TODO: Modularize so it can work with any size
 
 class Directions(Enum):
     UP = 1
@@ -83,7 +80,8 @@ class Snake:
 
     def move(self, change_dir=False) -> None:
         """
-        Moves the position in the correct direction and sends an instruction to a potential child if there is one.
+        Moves the position in the correct direction and sends an instruction to a potential
+        child if there is one.
 
         Returns:
             None
@@ -104,7 +102,7 @@ class Snake:
         elif self.dir == Directions.LEFT:
             self.x -= 20
 
-    def create(self) -> None:
+    def create(self) -> Snake:
         """
         Gets the tail member of the snake and adds a new child to it.
 
@@ -161,9 +159,11 @@ def pause() -> None:
             elif event.type == pygame.MOUSEBUTTONUP:
                 if button_color == DARK_BLUE:
                     paused = False
-        pygame.draw.rect(screen, BLACK, [(size[0] - 4) // 2 - 100, (size[1] - 4) // 2 - 100, 200, 200])
+        pygame.draw.rect(screen, BLACK,
+                         [(size[0] - 4) // 2 - 100, (size[1] - 4) // 2 - 100, 200, 200])
         pygame.draw.rect(screen, WHITE, [size[0] // 2 - 100, size[1] // 2 - 100, 196, 196])
-        pygame.draw.rect(screen, button_color, [(size[0] - 4) // 2 - 50, size[1] // 2 + 50, 100, 40])
+        pygame.draw.rect(screen, button_color,
+                         [(size[0] - 4) // 2 - 50, size[1] // 2 + 50, 100, 40])
         font = pygame.font.Font('freesansbold.ttf', 15)
 
         # create a text suface object on which text is drawn on it.
@@ -215,7 +215,8 @@ class Game:
 
     def check_collisions(self) -> int:
         """
-        Checks if snake has collided with borders, flower, or itself. Returns the score for calculating the loss
+        Checks if snake has collided with borders, flower, or itself. Returns the score for
+        calculating the loss
 
         Returns:
             (int) Score
@@ -288,7 +289,8 @@ class Game:
         """
         Called if a collision with itself or the wall occurs
 
-        Waits for a user input to play again if not training, otherwise automatically starts next game.
+        Waits for a user input to play again if not training, otherwise automatically starts
+        next game.
 
         Returns:
             None
@@ -300,7 +302,8 @@ class Game:
         dead = True
         while dead:
             pos = pygame.mouse.get_pos()
-            if (size[0] - 4) // 2 - 50 <= pos[0] <= size[1] // 2 + 50 <= pos[1] <= size[1] // 2 + 90:
+            if (size[0] - 4) // 2 - 50 <= pos[0] <= size[1] // 2 + 50 <= pos[1] <= size[
+                1] // 2 + 90:
                 button_color = DARK_BLUE
             else:
                 button_color = BLUE
@@ -314,9 +317,11 @@ class Game:
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if button_color == DARK_BLUE:
                         dead = False
-            pygame.draw.rect(screen, BLACK, [(size[0] - 4) // 2 - 100, (size[1] - 4) // 2 - 100, 200, 200])
+            pygame.draw.rect(screen, BLACK,
+                             [(size[0] - 4) // 2 - 100, (size[1] - 4) // 2 - 100, 200, 200])
             pygame.draw.rect(screen, WHITE, [size[0] // 2 - 100, size[1] // 2 - 100, 196, 196])
-            pygame.draw.rect(screen, button_color, [(size[0] - 4) // 2 - 50, size[1] // 2 + 50, 100, 40])
+            pygame.draw.rect(screen, button_color,
+                             [(size[0] - 4) // 2 - 50, size[1] // 2 + 50, 100, 40])
             font = pygame.font.Font('freesansbold.ttf', 15)
             dead_text = font.render("Dead", True, BLACK, WHITE)
             play_text = font.render("Play Again", True, BLACK, button_color)

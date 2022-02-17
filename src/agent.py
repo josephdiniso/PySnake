@@ -5,7 +5,7 @@ import torch
 import numpy as np
 
 from main import Game, TriDirections
-from model import Linear_QNet, QTrainer
+from model import Q_Net, QTrainer
 
 MAX_MEM = 100_000
 BATCH_SIZE = 1000
@@ -18,7 +18,7 @@ class Agent:
         self.n_games: int = 0
         self.epsilon = 0
         self.gamma = 0.9
-        self.model = Linear_QNet(11, 256, 3)
+        self.model = Q_Net(11, 256, 3)
         self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
 
     def remember(self, state, action, reward, next_state, done):
